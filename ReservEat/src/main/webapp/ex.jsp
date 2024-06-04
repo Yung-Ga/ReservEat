@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Welcome</title>
+<title>Exam</title>
 </head>
 <body>
 	<h1>Hello WebServerComputing!! </h1>
