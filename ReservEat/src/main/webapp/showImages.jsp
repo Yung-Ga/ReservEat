@@ -4,7 +4,7 @@
 <%
 String storeID = request.getParameter("storeID");
 String imageType = request.getParameter("type");
-String imageTypeKey = "Category_" + (type != null ? type : "All");
+String imageTypeKey = "Category_" + (imageType != null ? imageType : "All");
 String language = request.getParameter("language");
 if (language == null) {
 	language = "ko"; // 기본값 설정
