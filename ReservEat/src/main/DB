@@ -1,0 +1,8 @@
+CREATE TABLE consumers (
+    consumerId INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50),
+    password VARCHAR(50),
+    phonenumber VARCHAR(20),
+    email VARCHAR(50)
+);
+SELECT * FROM consumers;
