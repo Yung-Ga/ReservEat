@@ -1,46 +1,69 @@
-<%@ page contentType="text/html; charset=utf-8" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.sql.*" %>
-<%@ include file="DBconnect.jsp" %>
+<%@ page import="dto.ConsumerDTO" %>
+<%@ page import="dao.ConsumerDAO" %>
+<%@ include file="dbconn.jsp" %>
 <%
     if (request.getMethod().equalsIgnoreCase("post")) {
-        // 폼에서 받은 데이터
-        String id = request.getParameter("id");
-        String pw = request.getParameter("pw");
-        String name = request.getParameter("name");
-        String phone1 = request.getParameter("phone1");
-        String phone2 = request.getParameter("phone2");
-        String phone3 = request.getParameter("phone3");
-        String email1 = request.getParameter("email1");
-        String email2 = request.getParameter("email2");
-
-        // 전화번호와 이메일 합치기
-        String phone = phone1 + "-" + phone2 + "-" + phone3;
-        String email = email1 + "@" + email2;
-
-        PreparedStatement pstmt = null;
-        String sql = "INSERT INTO consumers (id, pw, name, phonenumber, email) VALUES (?, ?, ?, ?, ?)";
-
         try {
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, id);
-            pstmt.setString(2, pw);
-            pstmt.setString(3, name);
-            pstmt.setString(4, phone);
-            pstmt.setString(5, email);
-            int rowsAffected = pstmt.executeUpdate();
+            String UserID = request.getParameter("UserID");
+            String Password = request.getParameter("Password");
+            String UserName = request.getParameter("UserName");
+            String Gender = request.getParameter("Gender");
+            String BirthYY = request.getParameter("BirthYY");
+            String BirthMM = request.getParameter("BirthMM");
+            String BirthDD = request.getParameter("BirthDD");
+            String Email = request.getParameter("mail1") + "@" + request.getParameter("mail2");
+            String PhoneNumber = request.getParameter("PhoneNumber");
+            String Address = request.getParameter("Address");
 
-            if (rowsAffected > 0) {
-                response.sendRedirect("joinSuccess.jsp");
+            // 디버깅 로그 추가
+            System.out.println("Received UserID: " + UserID);
+            System.out.println("Received Password: " + Password);
+            System.out.println("Received UserName: " + UserName);
+            System.out.println("Received Gender: " + Gender);
+            System.out.println("Received BirthYY: " + BirthYY);
+            System.out.println("Received BirthMM: " + BirthMM);
+            System.out.println("Received BirthDD: " + BirthDD);
+            System.out.println("Received Email: " + Email);
+            System.out.println("Received PhoneNumber: " + PhoneNumber);
+            System.out.println("Received Address: " + Address);
+
+            // ConsumerDAO 객체 생성
+            ConsumerDAO dao = new ConsumerDAO(conn); // conn은 DBconnect.jsp에서 제공
+            ConsumerDTO existingConsumer = dao.getConsumerById(UserID);
+
+            if (existingConsumer != null) {
+                // 중복된 ID가 있는 경우
+                response.sendRedirect("joinError.jsp?error=id_duplicate");
             } else {
-                response.sendRedirect("joinFail.jsp");
+                // 폼에서 받은 데이터
+                ConsumerDTO consumer = new ConsumerDTO();
+                consumer.setUserID(UserID);
+                consumer.setPassword(Password);
+                consumer.setUserName(UserName);
+                consumer.setGender(Gender);
+                consumer.setBirthYY(BirthYY != null && !BirthYY.isEmpty() ? BirthYY : "0");
+                consumer.setBirthMM(BirthMM != null && !BirthMM.isEmpty() ? BirthMM : "0");
+                consumer.setBirthDD(BirthDD != null && !BirthDD.isEmpty() ? BirthDD : "0");
+                consumer.setEmail(Email);
+                consumer.setPhoneNumber(PhoneNumber);
+                consumer.setAddress(Address);
+
+                System.out.println("Consumer Data: " + consumer); // 디버깅 로그 추가
+
+                boolean isSuccess = dao.addConsumer(consumer);
+
+                if (isSuccess) {
+                    response.sendRedirect("joinSuccess.jsp");
+                } else {
+                    out.println("회원 가입에 실패했습니다. 다시 시도해주세요.");
+                    response.sendRedirect("joinFail.jsp");
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
-            out.println("<h1>회원 가입 중 오류가 발생했습니다.</h1>");
-            out.println("<pre>" + e.getMessage() + "</pre>");
-        } finally {
-            if (pstmt != null) try { pstmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-            if (conn != null) try { conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+            out.println("오류가 발생하였습니다: " + e.getMessage());
         }
     } else {
         response.sendRedirect("joinForm.jsp");

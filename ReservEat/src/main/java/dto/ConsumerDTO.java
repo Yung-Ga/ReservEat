@@ -1,54 +1,99 @@
 package dto;
 
 public class ConsumerDTO {
-	private String consumerId;
-	private String name;
-	private String password;
-	private String phonenumber;
-	private String email;
-	
-	public ConsumerDTO() {
-		super();
-	}
+    private String UserID;
+    private String UserName;
+    private String Password;
+    private String Gender;
+    private String BirthYY;
+    private String BirthMM;
+    private String BirthDD;
+    private String Email;
+    private String PhoneNumber;
+    private String Address;
 
-	public String getConsumerId() {
-		return consumerId;
-	}
+    public ConsumerDTO() {
+        super();
+    }
 
-	public void setConsumerId(String consumerId) {
-		this.consumerId = consumerId;
-	}
+    public String getUserID() {
+        return UserID;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setUserID(String UserID) {
+        this.UserID = UserID;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getUserName() {
+        return UserName;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setUserName(String UserName) {
+        this.UserName = UserName;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getPassword() {
+        return Password;
+    }
 
-	public String getPhonenumber() {
-		return phonenumber;
-	}
+    public void setPassword(String Password) {
+        this.Password = Password;
+    }
 
-	public void setPhonenumber(String phonenumber) {
-		this.phonenumber = phonenumber;
-	}
+    public String getGender() {
+        return Gender;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setGender(String Gender) {
+        this.Gender = Gender;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getBirthYY() {
+        return BirthYY;
+    }
 
+    public void setBirthYY(String BirthYY) {
+        this.BirthYY = BirthYY;
+    }
+
+    public String getBirthMM() {
+        return BirthMM;
+    }
+
+    public void setBirthMM(String BirthMM) {
+        this.BirthMM = BirthMM;
+    }
+
+    public String getBirthDD() {
+        return BirthDD;
+    }
+
+    public void setBirthDD(String BirthDD) {
+        this.BirthDD = BirthDD;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String Email) {
+        this.Email = Email;
+    }
+
+    public String getPhoneNumber() {
+        return PhoneNumber;
+    }
+
+    public void setPhoneNumber(String PhoneNumber) {
+        this.PhoneNumber = PhoneNumber;
+    }
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String Address) {
+        this.Address = Address;
+    }
 }
+

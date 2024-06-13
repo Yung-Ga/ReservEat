@@ -25,29 +25,27 @@
         color: black;
     }
 </style>
-<title>Welcome</title>
+<title>Select a user</title>
 </head>
 <body>
 <div class="container py-4">
-  <%!String greeting = "ReservEat";
-   String tagline = "맛집 찾고 가3";%>   
+<%@ include file="menu.jsp" %> 
     <div class="p-5 mb-4 bg-body-tertiary rounded-3">
       <div class="container-fluid py-5 text-center"> <!-- 텍스트 중앙 정렬 -->
-        <h1 class="display-5 fw-bold"><%=greeting%></h1>
-        <p class="col-md-8 fs-4 mx-auto">맛집 찾고 가세요!</p> <!-- 중앙 정렬을 위해 mx-auto 클래스 추가 -->
+        <h1 class="display-5 fw-bold">ReservEat</h1>
       </div>
     </div>  
     <div class="text-center"> <!-- 중앙 정렬 -->
         <a href="./login.jsp" class="btn-custom">
-            <img src="./resources/images/로그인.png" alt="로그인 버튼">
-            <span>로그인</span>
+            <img src="./resources/images/로그인.png" alt="소비자 버튼">
+            <span>소비자</span>
         </a>
-        <a href="./joinpage.jsp" class="btn-custom">
-            <img src="./resources/images/회원가입.png" alt="회원가입 버튼">
-            <span>회원가입</span>
+        <a href="./storeLogInPage.jsp" class="btn-custom">
+            <img src="./resources/images/회원가입.png" alt="사업자 버튼">
+            <span>사업자</span>
         </a>
     </div>
+    <%@ include file="footer.jsp" %>
 </div>
 </body>
 </html>
-
