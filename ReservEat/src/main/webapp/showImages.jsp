@@ -2,7 +2,7 @@
 <%@ page import="java.sql.*"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
-String storeID = request.getParameter("storeID");
+String storeIDParam = request.getParameter("storeID");
 String imageType = request.getParameter("type");
 String imageTypeKey = "Category_" + (imageType != null ? imageType : "All");
 String language = request.getParameter("language");
@@ -25,7 +25,7 @@ if (language == null) {
 		<%@ include file="menu.jsp"%>
 
 		<%
-		if (storeID == null) {
+		if (storeIDParam == null) {
 			out.println("가게 ID가 제공되지 않았습니다.");
 		} else {
 			PreparedStatement pstmt = null;
@@ -37,7 +37,7 @@ if (language == null) {
 			sql += " AND i.ImageType = ?";
 				}
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, storeID);
+				pstmt.setInt(1, Integer.parseInt(storeIDParam));
 				if (imageType != null && !imageType.isEmpty()) {
 			pstmt.setString(2, imageType);
 				}
@@ -49,7 +49,9 @@ if (language == null) {
 		<div class="p-5 mb-4 bg-body-tertiary rounded-3">
 			<div class="container-fluid py-5">
 				<h1 class="display-5 fw-bold">
-					<fmt:message key="Image" /> - <fmt:message key="<%=imageTypeKey%>" />
+					<fmt:message key="Image" />
+					-
+					<fmt:message key="<%=imageTypeKey%>" />
 				</h1>
 				<h2><%=storeName%></h2>
 			</div>
@@ -59,23 +61,24 @@ if (language == null) {
 				<div class="col-md-8">
 					<ul class="nav nav-pills">
 						<li class="nav-item"><a
-							href="./showImages.jsp?storeID=<%=storeID%>&language=<%=language%>"
+							href="./showImages.jsp?storeID=<%=storeIDParam%>&language=<%=language%>"
 							class="nav-link"><fmt:message key="Category_All" /></a></li>
 						<li class="nav-item"><a
-							href="./showImages.jsp?storeID=<%=storeID%>&type=food&language=<%=language%>"
+							href="./showImages.jsp?storeID=<%=storeIDParam%>&type=food&language=<%=language%>"
 							class="nav-link"><fmt:message key="Category_food" /></a></li>
 						<li class="nav-item"><a
-							href="./showImages.jsp?storeID=<%=storeID%>&type=interior&language=<%=language%>"
+							href="./showImages.jsp?storeID=<%=storeIDParam%>&type=interior&language=<%=language%>"
 							class="nav-link"><fmt:message key="Category_interior" /></a></li>
 						<li class="nav-item"><a
-							href="./showImages.jsp?storeID=<%=storeID%>&type=exterior&language=<%=language%>"
+							href="./showImages.jsp?storeID=<%=storeIDParam%>&type=exterior&language=<%=language%>"
 							class="nav-link"><fmt:message key="Category_exterior" /></a></li>
 					</ul>
 				</div>
 				<div class="col-md-4 text-end">
-					<a href="?language=ko&storeID=<%=storeID%>">한국어</a> | <a
-						href="?language=en&storeID=<%=storeID%>">English</a> <a
-						href="logout.jsp" class="btn btn-sm btn-success">Logout</a>
+					<a href="?language=ko&storeID=<%=storeIDParam%>">한국어</a> | <a
+						href="?language=en&storeID=<%=storeIDParam%>">English</a> 
+						<a href="store.jsp?id=<%=storeIDParam%>" class="btn btn-secondary"><fmt:message
+                            key="StoreInfo" /> &raquo;</a>
 				</div>
 			</div>
 		</header>

@@ -1,2 +1,6 @@
 eclipse.preferences.version=1
+encoding//src/main/webapp/businessPage.jsp=UTF-8
+encoding//src/main/webapp/deleteReservation.jsp=UTF-8
+encoding//src/main/webapp/processResetReservation.jsp=UTF-8
+encoding//src/main/webapp/reservationList.jsp=UTF-8
 encoding/<project>=UTF-8

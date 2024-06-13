@@ -1,44 +1,41 @@
-<%@ page contentType="text/html; charset=utf-8" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.sql.*" %>
-<%@ include file="DBconnect.jsp" %>
+<%@ include file="dbconn.jsp" %>
 <%
-    String id = request.getParameter("id");
+    String UserID = request.getParameter("id"); // AJAX 요청에서 'id' 파라미터 사용
     boolean isDuplicate = false;
-    String errorMessage = null;
+
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
 
     try {
-        if (id != null && !id.isEmpty()) {
-         	conn = (Connection) pageContext.getAttribute("conn", PageContext.REQUEST_SCOPE);
-            if (conn != null) {
-                String sql = "SELECT id FROM consumers WHERE id = ?";
-                PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setString(1, id);
-                ResultSet rs = pstmt.executeQuery();
-                if (rs.next()) {
-                    isDuplicate = true;
-                }
-                rs.close();
-                pstmt.close();
-                conn.close();
-            } else {
-                errorMessage = "데이터베이스 연결에 실패했습니다.";
-            }
-        } else {
-            errorMessage = "아이디가 유효하지 않습니다.";
+        // SQL 쿼리 준비
+        String sql = "SELECT UserID FROM User WHERE UserID = ?";
+        pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, UserID);
+        System.out.println("Query executed: " + pstmt); // 디버깅 로그 추가
+        rs = pstmt.executeQuery();
+
+        // 결과 처리
+        if (rs.next()) {
+            isDuplicate = true;
         }
     } catch (SQLException e) {
         e.printStackTrace();
-        errorMessage = "SQL 예외가 발생했습니다: " + e.getMessage();
+        out.print("error");
+        return;
+    } finally {
+        // 리소스 정리
+        if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+        if (pstmt != null) try { pstmt.close(); } catch (SQLException e) { e.printStackTrace(); }
     }
 
-    response.setContentType("application/json");
-    response.setCharacterEncoding("UTF-8");
-
-    if (errorMessage != null) {
-        out.print("{\"error\": \"" + errorMessage + "\"}");
+    // 결과 출력
+    if (isDuplicate) {
+        out.print("true"); // 중복된 경우 "true" 반환
     } else {
-        out.print("{\"isDuplicate\": " + isDuplicate + "}");
+        out.print("false"); // 중복되지 않은 경우 "false" 반환
     }
-    out.flush();
-%>
 
+    out.flush(); // 응답을 클라이언트로 보냅니다.
+%>
